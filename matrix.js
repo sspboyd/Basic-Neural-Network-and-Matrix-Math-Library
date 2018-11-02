@@ -10,7 +10,34 @@ function Matrix(rows, cols) {
     for (let i = 0; i < this.rows; i++) {
         this.matrix[i] = [];
         for (let j = 0; j < this.cols; j++) {
-        this.matrix[i][j] = 0;
+            this.matrix[i][j] = 0;
+        }
+    }
+}
+
+
+Matrix.prototype.randomize = function() {
+    for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.cols; j++) {
+            this.matrix[i][j] = Math.floor(Math.random() * 10);
+        }
+    }
+}
+
+
+Matrix.prototype.multiply = function(n) {
+    for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.cols; j++) {
+            this.matrix[i][j] *= n;
+        }
+    }
+}
+
+
+Matrix.prototype.add = function(n) {
+    for (let i = 0; i < this.rows; i++) {
+        for (let j = 0; j < this.cols; j++) {
+            this.matrix[i][j] += n;
         }
     }
 }
