@@ -15,6 +15,7 @@ class Matrix {
         }
     }
 
+
     transpose() {
         let result = new Matrix(this.cols, this.rows);
         for (let i = 0; i < this.rows; i++) {
@@ -25,6 +26,8 @@ class Matrix {
         return result;
 
     }
+
+
     randomize() {
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
@@ -32,6 +35,7 @@ class Matrix {
             }
         }
     }
+
 
     add(n) {
         if (n instanceof Matrix) {
@@ -70,6 +74,7 @@ class Matrix {
         }
     }
 
+
     multiply(n) {
         // scalar product
         for (let i = 0; i < this.rows; i++) {
@@ -79,8 +84,17 @@ class Matrix {
         }
     }
 
+    map(func){
+        // apply a function to every element of matrix
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                let val = this.data[i][j];
+                this.data[i][j] = func(val,i,j);
+            }
+        }
+    }
+
     print() {
         console.table(this.data);
     }
-
 }
