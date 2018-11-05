@@ -1,82 +1,86 @@
-function Matrix(rows, cols) {
+// Not a fan of the idea of using Class in javascript but trying it out here to see.
 
-    this.rows = rows;
-    this.cols = cols;
-    this.matrix = [];
+class Matrix {
+    constructor(rows, cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.data = [];
 
-    for (let i = 0; i < this.rows; i++) {
-        this.matrix[i] = [];
-        for (let j = 0; j < this.cols; j++) {
-            this.matrix[i][j] = 0;
+        // initialize all elements to 0
+        for (let i = 0; i < this.rows; i++) {
+            this.data[i] = [];
+            for (let j = 0; j < this.cols; j++) {
+                this.data[i][j] = 0;
+            }
         }
     }
-}
 
+    transpose() {
+        let result = new Matrix(this.cols, this.rows);
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                result.data[j][i] = this.data[i][j];
+            }
+        }
+        return result;
 
-Matrix.prototype.transpose = function () {
-    let result = new Matrix(this.cols, this.rows);
-    for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.cols; j++) {
-            result.matrix[j][i] = this.matrix[i][j];
+    }
+    randomize() {
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                this.data[i][j] = Math.floor(Math.random() * 10);
+            }
         }
     }
-    return result;
-}
 
-
-Matrix.prototype.randomize = function () {
-    for (let i = 0; i < this.rows; i++) {
-        for (let j = 0; j < this.cols; j++) {
-            this.matrix[i][j] = Math.floor(Math.random() * 10);
+    add(n) {
+        if (n instanceof Matrix) {
+            for (let i = 0; i < this.rows; i++) {
+                for (let j = 0; j < this.cols; j++) {
+                    this.data[i][j] += n.data[i][j];
+                }
+            }
+        } else {
+            for (let i = 0; i < this.rows; i++) {
+                for (let j = 0; j < this.cols; j++) {
+                    this.data[i][j] += n;
+                }
+            }
         }
     }
-}
 
 
-Matrix.prototype.multiply = function (n) {
-    if (n instanceof Matrix) { // Dot Product
-        if (this.cols !== n.rows) {
+    static multiply(a, b) {
+        if (a.cols !== b.rows) {
             console.log("Cols must match rows!!");
             return undefined;
         } else {
-            let result = new Matrix(this.rows, n.cols);
-            let a = this;
-            let b = n;
-
+            let result = new Matrix(a.rows, b.cols);
             for (let i = 0; i < a.rows; i++) {
                 for (let j = 0; j < b.cols; j++) {
                     let sum = 0;
                     for (let k = 0; k < a.cols; k++) {
                         // Dot product of vals in col
-                        sum += a.matrix[i][k] * b.matrix[k][j];
+                        sum += a.data[i][k] * b.data[k][j];
                     }
-                    result.matrix[i][j] = sum;
+                    result.data[i][j] = sum;
                 }
             }
             return result;
         }
-    } else {
+    }
+
+    multiply(n) {
+        // scalar product
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] *= n;
+                this.data[i][j] *= n;
             }
         }
     }
-}
 
-
-Matrix.prototype.add = function (n) {
-    if (n instanceof Matrix) {
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] += n.matrix[i][j];
-            }
-        }
-    } else {
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++) {
-                this.matrix[i][j] += n;
-            }
-        }
+    print() {
+        console.table(this.data);
     }
+
 }
