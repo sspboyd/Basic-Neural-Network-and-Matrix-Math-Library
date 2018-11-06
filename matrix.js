@@ -16,6 +16,27 @@ class Matrix {
     }
 
 
+    static fromArray(arr) {
+        let m = new Matrix(arr.length, 1);
+        for (let i = 0; i < arr.length; i++) {
+            m.data[i][0] = arr[i];
+        }
+        // m.print();
+        return m;
+    }
+
+
+    toArray() {
+        let arr = [];
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                arr.push(this.data[i][j]);
+            }
+        }
+        return arr;
+    }
+
+
     transpose() {
         let result = new Matrix(this.cols, this.rows);
         for (let i = 0; i < this.rows; i++) {
@@ -31,7 +52,7 @@ class Matrix {
     randomize() {
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
-                this.data[i][j] = Math.floor(Math.random() * 10);
+                this.data[i][j] = Math.floor(Math.random() * 2 - 1);
             }
         }
     }
@@ -84,15 +105,17 @@ class Matrix {
         }
     }
 
-    map(func){
+
+    map(func) {
         // apply a function to every element of matrix
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
                 let val = this.data[i][j];
-                this.data[i][j] = func(val,i,j);
+                this.data[i][j] = func(val, i, j);
             }
         }
     }
+
 
     print() {
         console.table(this.data);
