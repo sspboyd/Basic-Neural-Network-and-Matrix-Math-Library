@@ -16,6 +16,17 @@ class Matrix {
     }
 
 
+    static subtract(a, b) {
+        let result = new Matrix(a.rows, a.cols);
+        for (let i = 0; i < result.rows; i++) {
+            for (let j = 0; j < result.cols; j++) {
+                result.data[i][j] = a.data[i][j] - b.data[i][j];
+            }
+        }
+        return result;
+    }
+
+
     static fromArray(arr) {
         let m = new Matrix(arr.length, 1);
         for (let i = 0; i < arr.length; i++) {
@@ -37,11 +48,11 @@ class Matrix {
     }
 
 
-    transpose() {
-        let result = new Matrix(this.cols, this.rows);
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++) {
-                result.data[j][i] = this.data[i][j];
+    static transpose(m) {
+        let result = new Matrix(m.cols, m.rows);
+        for (let i = 0; i < m.rows; i++) {
+            for (let j = 0; j < m.cols; j++) {
+                result.data[j][i] = m.data[i][j];
             }
         }
         return result;
