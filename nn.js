@@ -14,9 +14,9 @@ class NeuralNetwork {
         this.output_nodes = _output_nodes;
 
         this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
-        this.weights_io = new Matrix(this.output_nodes, this.hidden_nodes);
+        this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
         this.weights_ih.randomize();
-        this.weights_io.randomize();
+        this.weights_ho.randomize();
 
         this.bias_h = new Matrix(this.hidden_nodes, 1);
         this.bias_o = new Matrix(this.output_nodes, 1);
@@ -35,11 +35,30 @@ class NeuralNetwork {
         // activation function
         hidden.map(sigmoid);
 
-        let output = Matrix.multiply(this.weights_io, hidden);
+        let output = Matrix.multiply(this.weights_ho, hidden);
         output.add(this.bias_o);
         output.map(sigmoid);
 
-
         return output.toArray();
+    }
+
+
+    train(inputs, targets) {
+        let outputs = this.feedfwd(inputs);
+
+        // convert from array to matrix
+        outputs = Matrix.fromArray(outputs);
+        targets = Matrix.fromArray(targets);
+
+        // Calculate the error
+        // ERR = TARGETS- Outputs
+        let output_errors = Matrix.subtract(targets, outputs);
+
+        let who_t = Matrix.transpose(this.weights_ho); // weights hidden to output transposed 
+        let hidden_errors = Matrix.multiply(who_t, output_errors)
+        outputs.print();
+        targets.print();
+        output_errors.print();
+
     }
 }
